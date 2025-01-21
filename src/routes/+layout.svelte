@@ -1,11 +1,16 @@
 <script>
+	import { page } from '$app/state';
 	import '../app.css';
 	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl, Button, Input } from 'flowbite-svelte';
 	import { SearchOutline } from 'flowbite-svelte-icons';
 	let { children } = $props();
 </script>
-<div class="container mx-auto">
 
+<svelte:head>
+	<title>{page.data.title ? page.data.title + " - " : ""}Alt City Grid </title>
+</svelte:head>
+
+<div class="container mx-auto">
 <Navbar>
 	<NavBrand href='/'>
 		<span class="self-center whitespace-nowrap text-xl font-semibold">Alt City Grid</span>

@@ -10,7 +10,12 @@ export const load = async ({locals, params}) => {
             //throw error(err.status, err.message)
         }
     }
+    let artist = await getArtist(params.id)
     return {
-        artist: getArtist(params.id)
-    }
+        artist: artist,
+        title: artist?.name
+    };
+    /*return {
+        artist: getArtist(params.id),
+    }*/
 }
