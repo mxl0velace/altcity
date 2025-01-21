@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "../../$types";
     import { enhance } from "$app/forms";
-    import { Input, Label, Helper, Button, ButtonGroup, InputAddon, Fileupload, Select } from "flowbite-svelte";
+    import { Input, Label, Helper, Button, ButtonGroup, InputAddon, Fileupload, Select, Textarea } from "flowbite-svelte";
 
     let { data }: { data: PageData } = $props();
 </script>
@@ -20,6 +20,8 @@
                 <Input type="text" id="cardname" name="cardname" placeholder="Sure Gamble..."/>
         </div>
     </div>
+    <Label for="description" class="pb-2">Description</Label>
+    <Textarea id="description" name="description" class="mb-2" placeholder="Made for Worlds 2031 Top Cut prizing..."></Textarea>
     <Label for="image" class="pb-2">Image</Label>
     <Fileupload class="mb-2" id="image" name="image"></Fileupload>
     <Helper class="mb-2">PNG, JPG, SVG, or GIF (max. ???MB I haven't checked yet but don't be silly)</Helper>
