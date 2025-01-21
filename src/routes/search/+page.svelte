@@ -11,11 +11,12 @@ you searched for {data.query}
 {#await data.results}
     Loading...
 {:then results} 
+<div class="grid gap-6 mb-6 md:grid-cols-7">
     {#each results.items as art}
     <Card href="/alt/{art?.id}" img={getImageURL(art?.collectionId, art?.id, art?.image)}>
-        <Heading tag="h5">{art?.title}</Heading>
-        <p class="font-thin">{art?.cardname}</p>
+        <Heading tag="h5" class="">{art?.title}</Heading>
+        <p class="font-thin">{art?.cardname}, {art?.expand?.artist?.name}</p>
     </Card>
-
     {/each}
+</div>
 {/await}
