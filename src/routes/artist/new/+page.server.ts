@@ -6,7 +6,6 @@ export const actions = {
 
         try {
             let result = await locals.pb.collection('artist').create(data);
-            console.log(result);
             redirect(303, "/artist/"+result.id);
         } catch (error) {
             if (isRedirect(error)){

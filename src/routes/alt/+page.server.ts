@@ -4,7 +4,8 @@ export const load = async ({locals, params}) => {
     const getAllArts = async() => {
         try {
             const arts = await locals.pb.collection('art').getList(1,50,{
-                sort: '-created'
+                sort: '-created',
+                expand: 'artist'
             });
             return arts;
         } catch (err: any) {

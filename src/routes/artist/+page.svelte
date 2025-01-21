@@ -11,7 +11,7 @@
         <CardPlaceholder/>
     {:then artists}
     <div class="grid gap-6 mb-6 md:grid-cols-7">
-        {#each artists?.items as artist}
+        {#each artists.items as artist}
         <Card href="/artist/{artist.id}" img={getImageURL(artist?.collectionId, artist?.id, artist?.logo)}>
             <Heading tag="h5">{artist.name}</Heading>
         </Card>
