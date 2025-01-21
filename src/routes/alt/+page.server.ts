@@ -14,6 +14,7 @@ export const load = async ({locals, params}) => {
         }
     }
     return {
-        arts: getAllArts()
+        arts: getAllArts(),
+        title: "Alt Arts"
     }
 }

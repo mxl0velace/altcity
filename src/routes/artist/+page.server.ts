@@ -13,6 +13,7 @@ export const load = async ({locals, params}) => {
         }
     }
     return {
-        artists: getAllArtists()
+        artists: getAllArtists(),
+        title: "Artists"
     }
 }
