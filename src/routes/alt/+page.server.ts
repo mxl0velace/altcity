@@ -9,7 +9,6 @@ export const load = async ({locals, params}) => {
             });
             return arts;
         } catch (err: any) {
-            console.log(err);
             //throw error(err.status, err.message)
         }
     }

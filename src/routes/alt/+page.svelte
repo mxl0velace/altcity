@@ -11,6 +11,7 @@
         <CardPlaceholder/>
     {:then arts}
     <div class="grid gap-6 mb-6 md:grid-cols-7">
+        {#if arts}
         {#each arts.items as art}
         <Card href="/alt/{art?.id}" img={getImageURL(art?.collectionId, art?.id, art?.image)}>
             <Heading tag="h5">{art?.title}</Heading>
@@ -18,6 +19,7 @@
         </Card>
 
         {/each}
+        {/if}
     </div>
     {/await}
 </div>
