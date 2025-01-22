@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/state';
 	import '../app.css';
-	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl, Button, Input, Footer, FooterLinkGroup, FooterLink, FooterCopyright } from 'flowbite-svelte';
-	import { SearchOutline } from 'flowbite-svelte-icons';
-	let { children } = $props();
+	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl, Button, Input, Footer, FooterLinkGroup, FooterLink, FooterCopyright, Dropdown, DropdownItem } from 'flowbite-svelte';
+	import { ChevronDownOutline, SearchOutline } from 'flowbite-svelte-icons';
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -28,12 +28,24 @@
 		<NavLi href="/alt">Recent Cards</NavLi>
 		<NavLi href="/artist">Recent Artists</NavLi>
 		<NavLi href="/artist/new">Create New Artist</NavLi>
+		{#if data.user}
+			<NavLi class="cursor-pointer">{data.user.name}<ChevronDownOutline class="inline"/></NavLi>
+			<Dropdown>
+				<DropdownItem href="/collection">Collection</DropdownItem>
+				<form action="/logout" method="POST">
+				<DropdownItem type="submit">Sign Out</DropdownItem>
+				</form>
+			</Dropdown>
+		{:else}
+			<NavLi href="/login">Login</NavLi>
+			<NavLi href="/register">Register</NavLi>
+		{/if}
 	</NavUl>
 </Navbar>
 	{@render children()}
 	<Footer>
 		<div class="mt-10 sm:flex sm:items-center sm:justify-between text-sm text-gray-500 dark:text-gray-400">
-			<p>Contact l0velace on Discord for support and information.</p>
+			<p>Support: l0velace (Discord)</p>
 			<FooterLinkGroup ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
 				<FooterLink href="https://github.com/mxl0velace/altcity">GitHub</FooterLink>
 			</FooterLinkGroup>
