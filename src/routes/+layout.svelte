@@ -31,6 +31,7 @@
 		{#if data.user}
 			<NavLi class="cursor-pointer">{data.user.name}<ChevronDownOutline class="inline"/></NavLi>
 			<Dropdown>
+				<DropdownItem href="/collection">Collection</DropdownItem>
 				<form action="/logout" method="POST">
 				<DropdownItem type="submit">Sign Out</DropdownItem>
 				</form>
@@ -44,7 +45,7 @@
 	{@render children()}
 	<Footer>
 		<div class="mt-10 sm:flex sm:items-center sm:justify-between text-sm text-gray-500 dark:text-gray-400">
-			<p>Contact l0velace on Discord for support and information.</p>
+			<p>Support: l0velace (Discord)</p>
 			<FooterLinkGroup ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
 				<FooterLink href="https://github.com/mxl0velace/altcity">GitHub</FooterLink>
 			</FooterLinkGroup>
