@@ -6,7 +6,9 @@
     let { data }: { data: PageData } = $props();
 </script>
 
-you searched for {data.query}
+<Heading class="text-xl">
+    Search: {data.query}
+</Heading>
 
 {#await data.results}
     Loading...
