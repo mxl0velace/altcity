@@ -5,7 +5,6 @@
 
     let { data } = $props();
 
-    console.log(data);
 </script>
 
 {#await data.artist}
