@@ -14,7 +14,9 @@ export const actions = {
             if (isRedirect(error)){
                 throw error;
             }
-            console.log(error);
+            return {
+                message: "Incorrect email/password - please try again!"
+            }
         }
     }
 }

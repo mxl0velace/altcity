@@ -8,6 +8,11 @@
 
 <svelte:head>
 	<title>{page.data.title ? page.data.title + " - " : ""}Alt City Grid </title>
+	<meta property="og:title" content="{page.data.title ? page.data.title : "Alt City Grid"}"/>
+	<meta property="og:type" content="website"/>
+	{#if page.data.image}
+		 <meta property="og:image" content="{page.data.image}"/>
+	{/if}
 </svelte:head>
 
 <div class="container mx-auto">

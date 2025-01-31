@@ -1,3 +1,4 @@
+import { getImageURL } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({locals, params}) => {
@@ -13,6 +14,7 @@ export const load = async ({locals, params}) => {
     let art = await getArt(params.id);
     return {
         art: art,
-        title: art?.title
+        title: art?.title,
+        image: getImageURL(art?.collectionId || "", art?.id || "", art?.image)
     }
 }

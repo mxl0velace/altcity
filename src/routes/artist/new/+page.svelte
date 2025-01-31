@@ -8,7 +8,7 @@
         <div>
             <Label for="name" class="mb-2">Artist Name</Label>
             <ButtonGroup class="w-full">
-                <Input type="text" id="name" name="name" placeholder="John Netrunner..."/>
+                <Input type="text" id="name" name="name" placeholder="John Netrunner..." required/>
                 <InputAddon>Required</InputAddon>
             </ButtonGroup>
         </div>
