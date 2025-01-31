@@ -46,7 +46,7 @@
     <Card>
         <h1 class="text-2xl font-bold">{art?.title}</h1>
         <h2 class="text-lg font-thin">{art?.cardname}</h2>
-        <h2 class="text-lg font-thin mb-2">by {art?.expand?.artist?.name}</h2>
+        <h2 class="text-lg font-thin mb-2">by <a class="text-blue-600 underline dark:text-blue-500 hover:no-underline" href="/artist/{art?.expand?.artist?.id}">{art?.expand?.artist?.name}</a></h2>
         <hr class="mb-2"/>
         <p>{art?.description}</p>
         {#if data.user}
