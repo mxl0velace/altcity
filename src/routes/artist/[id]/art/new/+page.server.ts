@@ -1,3 +1,5 @@
+import { isRedirect, redirect } from "@sveltejs/kit";
+
 export const actions = {
     default: async ({request, locals, params}) => {
         const data = await request.formData();
@@ -5,8 +7,12 @@ export const actions = {
         data.append("artist", params.id)
 
         try {
-            await locals.pb.collection('art').create(data);
+            var result = await locals.pb.collection('art').create(data);
+            redirect(303, "/alt/"+result.id);
         } catch (error) {
+            if (isRedirect(error)){
+                throw error;
+            }
             console.log(error);
         }
     }
