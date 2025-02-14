@@ -12,7 +12,7 @@ export const actions = {
             const svgWatermark = `
                 <svg width="${meta.width}" height="${meta.height}">
                     <style>
-                        .title { fill: #001; font-size: ${(meta?.width || 500)/6}px; font-weight: bold; opacity: 10%;}
+                        .title { fill: #001; font-size: ${(meta?.width || 500)/6}px; font-weight: bold; opacity: 13%;}
                     </style>
                     <text x="50%" y="50%" text-anchor="middle" class="title">alt city grid</text>
                     <text x="50%" y="25%" text-anchor="middle" class="title">alt city grid</text>
