@@ -10,8 +10,9 @@ export const POST: RequestHandler = async ({request, locals, params}) => {
         throw error (403);
     }
 
-    await locals.pb.collection("users").update(userId,{
-        'cardcollection-': params.id 
+    const cardCollection = await locals.pb.collection("cardcollection").getFirstListItem(`owner.id = "${userId}"`)
+    await locals.pb.collection("cardcollection").update(cardCollection.id,{
+        'cards-': params.id 
     })
     return new Response();
 };

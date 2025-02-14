@@ -5,7 +5,7 @@
 
     let { data } = $props();
     let art = data?.art;
-    let inCollection = $state(art?.expand?.users_via_cardcollection != null);
+    let inCollection = $state(art?.expand?.cardcollection_via_cards?.length != null && art?.expand?.cardcollection_via_cards?.length != 0);
 
     const addToCollection = async function () {
 		const response = await fetch(`/api/card/${data?.art?.id}/addToCollection`, {
