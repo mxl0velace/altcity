@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "../../$types";
     import { enhance } from "$app/forms";
-    import { Input, Label, Helper, Button, ButtonGroup, InputAddon, Fileupload, Select, Textarea } from "flowbite-svelte";
+    import { Input, Label, Helper, Button, ButtonGroup, InputAddon, Fileupload, Select, Textarea, Checkbox } from "flowbite-svelte";
 
     let { data }: { data: PageData } = $props();
 </script>
@@ -25,5 +25,6 @@
     <Label for="image" class="pb-2">Image</Label>
     <Fileupload class="mb-2" id="image" name="image"></Fileupload>
     <Helper class="mb-2">PNG, JPG, SVG, or GIF (max. ???MB I haven't checked yet but don't be silly)</Helper>
+    <Checkbox class="mb-2" name="watermark" checked>Enable Auto-Watermarking</Checkbox>
     <Button type="submit" class="w-full">Save New Alt Art</Button>
 </form>

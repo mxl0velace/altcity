@@ -4,7 +4,7 @@
     import type { PageData } from './$types';
 
     let { data }: { data: PageData } = $props();
-    let results = data.fulluser?.expand?.cardcollection
+    let results = data.fulluser?.expand?.cardcollection_via_owner[0]?.expand?.cards;
 </script>
 <div class="text-center">
 <Heading class="pb-2">Your Collection</Heading>

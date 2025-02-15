@@ -7,7 +7,7 @@ export const load = async ({locals, params}) => {
     const getUserWithCollection = async() => {
         try {
             const userArts = await locals.pb.collection('users').getOne(locals?.user?.id || "", {
-                expand: "cardcollection.artist"
+                expand: "cardcollection_via_owner.cards.artist"
             })
             return userArts;
         } catch (err: any) {
