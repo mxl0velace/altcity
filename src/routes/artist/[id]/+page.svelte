@@ -1,6 +1,7 @@
 <script>
     import { getImageURL } from "$lib/utils.ts";
     import { Button, Heading, Img, TabItem, Tabs, Card } from "flowbite-svelte";
+    import { ShieldCheckSolid } from "flowbite-svelte-icons";
 
 
     let { data } = $props();
@@ -10,7 +11,7 @@
 {#await data.artist}
 loading
 {:then artist}
-<Heading>{artist?.name}</Heading>
+<div class="flex w-min gap-2 items-center"><Heading>{artist?.name}</Heading>{#if artist?.user}<ShieldCheckSolid size="xl" class="text-green-500"/>{/if}</div>
 <Tabs tabStyle="underline">
     <TabItem open title="Overview">
         <div class="flex gap-10 flex-col md:flex-row flex-wrap">
@@ -23,7 +24,10 @@ loading
                 </p>
                 <p class="text-lg">
                     <a class="text-blue-600 underline dark:text-blue-500 hover:no-underline" href={artist?.link}>{artist?.link}</a>
-                </p>    
+                </p>
+                {#if !artist?.user}
+                <p class="pt-4 text-sm">Is this you? Contact admin@gaythings.net to verify your artist profile.</p>
+                {/if}
             </div>
             {#if artist?.expand?.art_via_artist}
             <div class="flex w-min flex-grow gap-8">
