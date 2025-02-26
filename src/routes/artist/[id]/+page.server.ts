@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 export const load = async ({locals, params}) => {
     const getArtist = async(artistId: any) => {
         try {
-            const artist = await locals.pb.collection('artist').getOne(artistId);
+            const artist = await locals.pb.collection('artist').getOne(artistId, {expand: "art_via_artist"});
             return artist;
         } catch (err: any) {
             console.log(err);
