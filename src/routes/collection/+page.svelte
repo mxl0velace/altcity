@@ -1,7 +1,9 @@
 <script lang="ts">
     import { getImageURL } from '$lib/utils';
-    import { Card, Heading, Tabs, TabItem } from 'flowbite-svelte';
+    import { Card, Heading, Tabs, TabItem, Button, ButtonGroup, Checkbox, Input, InputAddon, Label, Textarea } from 'flowbite-svelte';
     import type { PageData } from './$types';
+    import { CirclePlusSolid } from 'flowbite-svelte-icons';
+    import { enhance } from '$app/forms';
 
     let { data }: { data: PageData } = $props();
     let allCollections = data.fulluser?.expand?.cardcollection_via_owner.concat(data.fulluser.expand.cardcollection_via_editors || [])
@@ -34,5 +36,19 @@
     </TabItem>
     {/if}
     {/each}
+    <TabItem>
+        <div slot="title">
+            <CirclePlusSolid/>
+        </div>
+        <h1 class="text-4xl font-bold mb-2">New Collection</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <Label for="name" class="mb-2" >Collection Name</Label>
+            <ButtonGroup class="w-full">
+                <Input type="text" id="name" name="name" placeholder="Wishlist..."/>
+                <InputAddon>Required</InputAddon>
+            </ButtonGroup>
+            <Button type="submit" class="w-full mt-2">Save New Collection</Button>
+        </form>
+    </TabItem>
 </Tabs>
 </div>

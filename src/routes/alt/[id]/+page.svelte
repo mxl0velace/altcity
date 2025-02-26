@@ -88,8 +88,8 @@
                     </Dropdown>
             </div>
             {:else}
-            <div class="grid gap-6 sm:grid-cols-2 place-items-center">
-                <Button on:click={addToCollection} class="bg-lime-500 hover:bg-lime-600"><CirclePlusSolid class="mr-1"/> I Have This!</Button>
+            <div class="grid gap-6 sm:grid-cols-3 place-items-center">
+                <Button on:click={addToCollection} class="bg-lime-500 hover:bg-lime-600 col-span-2"><CirclePlusSolid class="mr-1"/> I Have This!</Button>
                 <Button color="alternative">Add to...<ChevronDownOutline class="text-white" /></Button>
                 <Dropdown class="w-44 p-3 space-y-3 text-sm">
                     {#each otherCollections as collection}

@@ -20,3 +20,18 @@ export const load = async ({locals, params}) => {
         title: "Alt Arts"
     }
 }
+
+export const actions = {
+    default: async ({request, locals}) => {
+        const data = await request.formData();
+        try {
+            var toSend = {
+                name: data.get("name"),
+                owner: locals?.user?.id
+            }
+            let result = await locals.pb.collection('cardCollection').create(toSend);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
