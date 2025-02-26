@@ -22,7 +22,7 @@ export const load = async ({locals, params}) => {
 }
 
 export const actions = {
-    default: async ({request, locals}) => {
+    new: async ({request, locals}) => {
         const data = await request.formData();
         try {
             var toSend = {
@@ -30,6 +30,17 @@ export const actions = {
                 owner: locals?.user?.id
             }
             let result = await locals.pb.collection('cardCollection').create(toSend);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    settings: async ({request, locals}) => {
+        const data = await request.formData();
+        try {
+            var toSend = {
+                name: data.get("name"),
+            }
+            let result = await locals.pb.collection('cardCollection').update(data.get("collectionId")?.toString() || "", toSend);
         } catch (error) {
             console.log(error);
         }
