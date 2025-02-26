@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({request, locals, params}) => {
-    let { userId } = await request.json();
+    let { userId, collectionId } = await request.json();
     if (!locals.user) {
         throw error(401);
     }
@@ -11,16 +11,24 @@ export const POST: RequestHandler = async ({request, locals, params}) => {
     }
     var cardCollection;
     try {
-        cardCollection = await locals.pb.collection("cardcollection").getFirstListItem(`owner.id = "${userId}"`)
+        cardCollection = await locals.pb.collection("cardcollection").getOne(collectionId);
     }
     catch (error) {
         cardCollection = null
     }
     if (cardCollection == null) {
-        await locals.pb.collection("cardcollection").create({
-            owner: userId,
-            cards: [params.id]
-        })
+        if (locals.user.main_collection == null) {
+            const newCollection = await locals.pb.collection("cardcollection").create({
+                owner: userId,
+                cards: [params.id],
+                name: "Owned"
+            });
+            await locals.pb.collection("users").update(locals.user.id, {
+                main_collection: newCollection.id
+            })
+        } else {
+            throw error (404);
+        }
     } else {
         await locals.pb.collection("cardcollection").update(cardCollection.id,{
             'cards+': params.id 
