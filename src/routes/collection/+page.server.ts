@@ -41,6 +41,13 @@ export const actions = {
                 name: data.get("name"),
             }
             let result = await locals.pb.collection('cardCollection').update(data.get("collectionId")?.toString() || "", toSend);
+            if (data.get("main")) {
+                if (locals.user?.main_collection != data.get("collectionId")) {
+                    await locals.pb.collection('users').update(locals.user?.id || "", {
+                        main_collection: data.get("collectionId")
+                    })
+                }
+            }
         } catch (error) {
             console.log(error);
         }

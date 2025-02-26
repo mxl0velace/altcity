@@ -53,14 +53,18 @@
         return async ({ update }) => {
 			await update();
             allCollections = allCollections.map(x => x.id == formData.get("collectionId") ? { ...x, name: formData.get("name")} : x);
+            if (formData.get("main")) {
+                data.user.main_collection = formData.get("collectionId");
+            }
 		}; 
     }
     }>
         <Label for="name" class="mb-2" >Collection Name</Label>
-        <ButtonGroup class="w-full">
+        <ButtonGroup class="w-full mb-2">
             <Input type="text" id="name" name="name" placeholder="Wishlist..." value={currentlyOpen.name}/>
             <InputAddon>Required</InputAddon>
         </ButtonGroup>
+        <Checkbox name="main" checked={currentlyOpen.id == data?.fulluser?.main_collection}>Is Main Collection?</Checkbox>
         <input type="hidden" name="collectionId" value={currentlyOpen.id}>
         <Button type="submit" class="w-full mt-2">Save {currentlyOpen.name}</Button>
     </form>
