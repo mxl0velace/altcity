@@ -2,14 +2,16 @@
     import { getImageURL } from '$lib/utils';
     import { Card, Heading, Tabs, TabItem, Button, ButtonGroup, Checkbox, Input, InputAddon, Label, Textarea, Modal } from 'flowbite-svelte';
     import type { PageData } from './$types';
-    import { CirclePlusSolid, CogSolid } from 'flowbite-svelte-icons';
+    import { CirclePlusSolid, CogSolid, ExclamationCircleOutline } from 'flowbite-svelte-icons';
     import { enhance } from '$app/forms';
+    import { page } from '$app/state';
 
     let { data }: { data: PageData } = $props();
     let allCollections = $state(data.fulluser?.expand?.cardcollection_via_owner.concat(data.fulluser.expand.cardcollection_via_editors || []))
 
     let settingsOpen = $state(false);
-    let currentlyOpen = $state({name: "", id: ""});
+    let currentlyOpen = $state({name: "", id: "", addEditors: false});
+    let deleteOpen = $state(false);
 
 </script>
 <div class="text-center">
@@ -17,14 +19,17 @@
 <Tabs tabStyle="underline">
     {#each allCollections as collection}
     <TabItem title={collection.name || "Collection"} open={data?.fulluser?.main_collection == collection.id}>
-        <div class="w-full flex justify-start mb-2">
+        <div class="w-full flex justify-start mb-2 align-middle gap-2">
             <Button on:click={() => {settingsOpen=true; currentlyOpen = collection}} color="alternative"><CogSolid class="w-5 h-5 me-2"/> Edit Collection</Button>
+            {#if collection.addEditors}
+            <p class="align-middle">Share the link <a href="/{collection.id}/join" class="text-blue-600 underline hover:no-underline">{page.url.host}{page.url.pathname}/{collection.id}/join</a> to invite editors to this collection.</p>
+            {/if}
         </div>
         <div class="grid gap-6 mb-6 md:grid-cols-7">
             {#each collection.expand.cards as art}
             <Card href="/alt/{art?.id}" img={getImageURL(art?.collectionId, art?.id, art?.image)}>
                 <Heading tag="h5" class="">{art?.title}</Heading>
-                <p class="font-thin">{art?.cardname}, {art?.expand?.artist?.name}</p>
+                    <p class="font-thin">{art?.cardname}, {art?.expand?.artist?.name}</p>
             </Card>
             {/each}
         </div>        
@@ -41,6 +46,7 @@
                 <Input type="text" id="name" name="name" placeholder="Wishlist..."/>
                 <InputAddon>Required</InputAddon>
             </ButtonGroup>
+            <Checkbox name="addEditors" class="mt-2">Allow editors to be added?</Checkbox>
             <Button type="submit" class="w-full mt-2">Save New Collection</Button>
         </form>
     </TabItem>
@@ -65,7 +71,30 @@
             <InputAddon>Required</InputAddon>
         </ButtonGroup>
         <Checkbox name="main" checked={currentlyOpen.id == data?.fulluser?.main_collection}>Is Main Collection?</Checkbox>
+        <Checkbox name="addEditors" class="mt-2" checked={currentlyOpen.addEditors}>Allow editors to be added?</Checkbox>
         <input type="hidden" name="collectionId" value={currentlyOpen.id}>
-        <Button type="submit" class="w-full mt-2">Save {currentlyOpen.name}</Button>
+        <div class="grid grid-cols-3 gap-6 mt-2 ">
+            <Button type="submit" color="green" class="col-span-2">Save {currentlyOpen.name}</Button>
+            <Button color="red" on:click={() => {deleteOpen = true;}}>Delete {currentlyOpen.name}</Button>
+        </div>
     </form>
+</Modal>
+<Modal bind:open={deleteOpen} size="sm" class="w-full" outsideclose={true}>
+    <div class="text-center">
+        <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete {currentlyOpen.name}?</h3>
+        <form method="POST" action="?/delete" use:enhance={({ formData }) => {
+            settingsOpen = false;
+            deleteOpen = false;
+            return async ({ update }) => {
+                await update();
+                allCollections = allCollections.filter(x => x.id != formData.get("collectionId"));
+            }; 
+        }
+        }>
+            <Button type="submit" color="red" class="me-2">Yes, I'm sure</Button>
+            <Button on:click={() => {deleteOpen = false;}} color="alternative">No, cancel</Button>
+            <input type="hidden" name="collectionId" value={currentlyOpen.id}>
+        </form>
+    </div>
 </Modal>
