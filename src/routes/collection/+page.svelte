@@ -58,7 +58,7 @@
         settingsOpen = false;
         return async ({ update }) => {
 			await update();
-            allCollections = allCollections.map(x => x.id == formData.get("collectionId") ? { ...x, name: formData.get("name")} : x);
+            allCollections = allCollections.map(x => x.id == formData.get("collectionId") ? { ...x, name: formData.get("name"), addEditors: formData.get("addEditors") == "on"} : x);
             if (formData.get("main")) {
                 data.user.main_collection = formData.get("collectionId");
             }
