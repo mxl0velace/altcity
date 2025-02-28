@@ -22,7 +22,7 @@
         <div class="w-full flex justify-start mb-2 align-middle gap-2">
             <Button on:click={() => {settingsOpen=true; currentlyOpen = collection}} color="alternative"><CogSolid class="w-5 h-5 me-2"/> Edit Collection</Button>
             {#if collection.addEditors}
-            <p class="align-middle">Share the link <a href="/{collection.id}/join" class="text-blue-600 underline hover:no-underline">{page.url.host}{page.url.pathname}/{collection.id}/join</a> to invite editors to this collection.</p>
+            <p class="align-middle">Share the link <a href="/collection/{collection.id}/join" class="text-blue-600 underline hover:no-underline">{page.url.host}{page.url.pathname}/{collection.id}/join</a> to invite editors to this collection.</p>
             {/if}
         </div>
         <div class="grid gap-6 mb-6 md:grid-cols-7">

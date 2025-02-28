@@ -1,9 +1,38 @@
 <script>
+// @ts-nocheck
+
 	import { page } from '$app/state';
 	import '../app.css';
-	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl, Button, Input, Footer, FooterLinkGroup, FooterLink, FooterCopyright, Dropdown, DropdownItem } from 'flowbite-svelte';
-	import { ChevronDownOutline, SearchOutline } from 'flowbite-svelte-icons';
+	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl, Button, Input, Footer, FooterLinkGroup, FooterLink, FooterCopyright, Dropdown, DropdownItem, Toast } from 'flowbite-svelte';
+	import { ChevronDownOutline, MessageDotsOutline, SearchOutline } from 'flowbite-svelte-icons';
 	let { children, data } = $props();
+	var toast = {
+		visible: false
+	};
+	if (data.toast) {
+		toast.visible = true;
+		switch (data.toast) {
+			case "error_unknown":
+				toast.type = "red";
+				toast.text = "Unknown error"
+				break;
+			case "error_collection_closed":
+				toast.type = "red";
+				toast.text = "This collection is closed!"
+				break;
+			case "error_collection_duplicate":
+				toast.type = "red";
+				toast.text = "You are already in this collection!"
+				break;
+			case "success_collection":
+				toast.type = "green";
+				toast.text = "Added to collection!"
+				break;
+			default:
+				toast.visible = false;
+		}
+	}
+
 </script>
 
 <svelte:head>
@@ -56,4 +85,10 @@
 			</FooterLinkGroup>
 		</div>
 	</Footer>
+	{#if toast.visible}
+		 <Toast color={toast.type} position="bottom-right">
+			<MessageDotsOutline slot="icon"/>
+			{toast.text}
+		 </Toast>
+	{/if}
 </div>
