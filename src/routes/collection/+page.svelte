@@ -10,7 +10,7 @@
     let allCollections = $state(data.fulluser?.expand?.cardcollection_via_owner.concat(data.fulluser.expand.cardcollection_via_editors || []))
 
     let settingsOpen = $state(false);
-    let currentlyOpen = $state({name: "", id: "", addEditors: false});
+    let currentlyOpen = $state({name: "", id: "", addEditors: false, owner: ""});
     let deleteOpen = $state(false);
 
 </script>
@@ -75,15 +75,15 @@
         <input type="hidden" name="collectionId" value={currentlyOpen.id}>
         <div class="grid grid-cols-3 gap-6 mt-2 ">
             <Button type="submit" color="green" class="col-span-2">Save {currentlyOpen.name}</Button>
-            <Button color="red" on:click={() => {deleteOpen = true;}}>Delete {currentlyOpen.name}</Button>
+            <Button color="red" on:click={() => {deleteOpen = true;}}>{currentlyOpen.owner == data.user?.id ? "Delete" : "Leave"} {currentlyOpen.name}</Button>
         </div>
     </form>
 </Modal>
 <Modal bind:open={deleteOpen} size="sm" class="w-full" outsideclose={true}>
     <div class="text-center">
         <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
-        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete {currentlyOpen.name}?</h3>
-        <form method="POST" action="?/delete" use:enhance={({ formData }) => {
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to {currentlyOpen.owner == data.user?.id ? "delete" : "leave"} {currentlyOpen.name}?</h3>
+        <form method="POST" action="?/{currentlyOpen.owner == data.user?.id ? "delete" : "leave"}" use:enhance={({ formData }) => {
             settingsOpen = false;
             deleteOpen = false;
             return async ({ update }) => {

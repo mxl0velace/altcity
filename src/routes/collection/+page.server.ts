@@ -62,5 +62,16 @@ export const actions = {
             console.log(error);
         }
 
+    },
+    leave: async ({request, locals}) => {
+        const data = await request.formData();
+        try {
+            let result = await locals.pb.collection('cardCollection').update(data.get("collectionId")?.toString() || "", {
+                'editors-': locals.user?.id
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 }
