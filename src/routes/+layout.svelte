@@ -9,8 +9,6 @@
 	var toast = {
 		visible: false
 	};
-	console.log(data.toast);
-	console.log(page.form?.status);
 	if (data.toast || page.form?.status) {
 		toast.visible = true;
 		switch (data.toast || page.form?.status) {
