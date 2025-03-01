@@ -26,3 +26,5 @@ pocketbase/CHANGELOG.md
 pocketbase/LICENSE.md
 pocketbase/pocketbase
 pocketbase/pb_data/*
+.lsp/.cache/db.transit.json
+.clj-kondo/.cache/v1/lock

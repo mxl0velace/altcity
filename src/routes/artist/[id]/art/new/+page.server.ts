@@ -4,7 +4,7 @@ import sharp from "sharp";
 export const actions = {
     default: async ({request, locals, params}) => {
         const data = await request.formData();
-        if (data.get("watermark")) {
+        if (data.get("watermark") && data.get("image")?.size > 0) {
             const img = data.get("image");
             //@ts-ignore
             const simg = sharp(await img.arrayBuffer());
@@ -36,7 +36,10 @@ export const actions = {
             if (isRedirect(error)){
                 throw error;
             }
-            console.log(error);
+            //console.log(error);
+            return {
+                status: "error_unknown"
+            }
         }
     }
 }

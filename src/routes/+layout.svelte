@@ -9,9 +9,11 @@
 	var toast = {
 		visible: false
 	};
-	if (data.toast) {
+	console.log(data.toast);
+	console.log(page.form?.status);
+	if (data.toast || page.form?.status) {
 		toast.visible = true;
-		switch (data.toast) {
+		switch (data.toast || page.form?.status) {
 			case "error_unknown":
 				toast.type = "red";
 				toast.text = "Unknown error"
