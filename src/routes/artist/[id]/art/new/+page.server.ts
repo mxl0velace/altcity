@@ -30,6 +30,13 @@ export const actions = {
         data.append("artist", params.id);
 
         try {
+            var card = await locals.pb.collection('card').getFirstListItem(`name = '${data.get("cardname")?.replace("'", "\\'")}'`);
+            data.set("cardlink", card.id);
+        } catch (err) {
+            
+        }
+
+        try {
             var result = await locals.pb.collection('art').create(data);
             redirect(303, "/alt/"+result.id);
         } catch (error) {

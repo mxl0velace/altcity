@@ -3,7 +3,8 @@ import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({locals, params}) => {
     var cards;
-    var searchTerm = params.subst;
+    var searchTerm = params.subst.replace("'", "\\'");
+    console.log(searchTerm);
     try {
         cards = await locals.pb.collection('card').getList(1, 8, {
             filter: `name ~ '${searchTerm}'`,
