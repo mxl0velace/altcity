@@ -4,7 +4,7 @@ import sharp from "sharp";
 export const actions = {
     default: async ({request, locals, params}) => {
         const data = await request.formData();
-        if (data.get("watermark")) {
+        if (data.get("watermark") && data.get("image")?.size > 0) {
             const img = data.get("image");
             //@ts-ignore
             const simg = sharp(await img.arrayBuffer());
@@ -30,13 +30,23 @@ export const actions = {
         data.append("artist", params.id);
 
         try {
+            var card = await locals.pb.collection('card').getFirstListItem(`name = '${data.get("cardname")?.replace("'", "\\'")}'`);
+            data.set("cardlink", card.id);
+        } catch (err) {
+            
+        }
+
+        try {
             var result = await locals.pb.collection('art').create(data);
             redirect(303, "/alt/"+result.id);
         } catch (error) {
             if (isRedirect(error)){
                 throw error;
             }
-            console.log(error);
+            //console.log(error);
+            return {
+                status: "error_unknown"
+            }
         }
     }
 }

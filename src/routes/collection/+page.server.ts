@@ -27,7 +27,8 @@ export const actions = {
         try {
             var toSend = {
                 name: data.get("name"),
-                owner: locals?.user?.id
+                owner: locals?.user?.id,
+                addEditors: (data.get("addEditors") == "on" ? true : false) 
             }
             let result = await locals.pb.collection('cardCollection').create(toSend);
         } catch (error) {
@@ -39,6 +40,7 @@ export const actions = {
         try {
             var toSend = {
                 name: data.get("name"),
+                addEditors: (data.get("addEditors") == "on" ? true : false) 
             }
             let result = await locals.pb.collection('cardCollection').update(data.get("collectionId")?.toString() || "", toSend);
             if (data.get("main")) {
@@ -51,5 +53,25 @@ export const actions = {
         } catch (error) {
             console.log(error);
         }
+    },
+    delete: async ({request, locals}) => {
+        const data = await request.formData();
+        try {
+            let result = await locals.pb.collection('cardCollection').delete(data.get("collectionId")?.toString() || "");
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+    leave: async ({request, locals}) => {
+        const data = await request.formData();
+        try {
+            let result = await locals.pb.collection('cardCollection').update(data.get("collectionId")?.toString() || "", {
+                'editors-': locals.user?.id
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 }
