@@ -7,7 +7,7 @@
     import { page } from '$app/state';
 
     let { data }: { data: PageData } = $props();
-    let allCollections = $state(data.fulluser?.expand?.cardcollection_via_owner.concat(data.fulluser.expand.cardcollection_via_editors || []))
+    let allCollections = $state(data.fulluser?.expand?.cardcollection_via_owner?.concat(data.fulluser.expand.cardcollection_via_editors || []) || data.fulluser?.expand?.cardcollection_via_editors || [])
 
     let settingsOpen = $state(false);
     let currentlyOpen = $state({name: "", id: "", addEditors: false, owner: ""});

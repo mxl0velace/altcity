@@ -8,7 +8,7 @@
     let { data } = $props();
     let art = data?.art;
     let mainCollection = data.userWithCollections?.main_collection;
-    let otherCollections = data.userWithCollections?.expand.cardcollection_via_owner.concat(data.userWithCollections.expand.cardcollection_via_editors || []).filter(x => x.id != mainCollection) || [];
+    let otherCollections = data.userWithCollections?.expand.cardcollection_via_owner?.concat(data.userWithCollections.expand.cardcollection_via_editors || []).filter(x => x.id != mainCollection) || [];
     let inCollection = $state(art?.expand?.cardcollection_via_cards?.length != null && art?.expand?.cardcollection_via_cards.some(x => x.id == mainCollection));
 
     const addToCollection = async function (e, collectionId = null) {
