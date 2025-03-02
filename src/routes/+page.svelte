@@ -15,6 +15,7 @@
     <Heading class="pb-2">
         Alt City Grid - A Netrunner Alt Art Database
     </Heading>
+    <p>A place for you to keep track of your collection, stay up to date with the latest cards from your favourite artists, and find the perfect alt art to fit your deck!</p>
     <p>
         Alt City Grid is still in active development - features are subject to change!
     </p>
