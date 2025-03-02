@@ -1,12 +1,17 @@
 <script lang="ts">
-    import { Button, Heading, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Textarea } from 'flowbite-svelte';
-import type { PageData } from './$types';
+    // @ts-nocheck
+    import { Button, Heading, Img, Modal, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Textarea } from 'flowbite-svelte';
+    import type { PageData } from './$types';
+    import { getImageURL } from '$lib/utils';
 
     let { data }: { data: PageData } = $props();
 
     let pastedInput = $state("");
 
     let cardEntries = $state([]);
+
+    let selectedRow = $state({});
+    let modalVisible = $state(false);
 
     let mainCollection = {
         name: "Owned"
@@ -40,7 +45,7 @@ import type { PageData } from './$types';
                 </TableHead>
                 <TableBody>
                     {#each cardEntries as entry}
-                    <TableBodyRow>
+                    <TableBodyRow on:click={() => {selectedRow = entry; modalVisible = true;}}>
                         <TableBodyCell>
                             {entry.name}
                         </TableBodyCell>
@@ -49,7 +54,7 @@ import type { PageData } from './$types';
                         </TableBodyCell>
                         <TableBodyCell>
                             {#if entry.selected}
-                                 {entry.selected.name} ({entry.selected.artist})
+                                 {entry.selected.title} ({entry.selected.expand.artist.name})
                             {:else}
                                 {#if entry.alts?.main}
                                     <span class="text-green-500">{entry.alts.main || 0} {mainCollection.name}</span>, 
@@ -76,6 +81,24 @@ import type { PageData } from './$types';
         </Button>
     </div>
 </div>
+<Modal title={selectedRow.name} bind:open={modalVisible} outsideclose>
+    <Table shadow hoverable>
+        <TableHead>
+            <TableHeadCell></TableHeadCell>
+            <TableHeadCell>Name</TableHeadCell>
+            <TableHeadCell>Artist</TableHeadCell>
+        </TableHead>
+        <TableBody>
+            {#each selectedRow.alts.list as alt}
+            <TableBodyRow color={alt.inCollection == "main" ? "green" : alt.inCollection == "collection" ? "yellow" : "default"} on:click={() => {selectedRow.selected = alt; modalVisible = false;}} tabindex=1>
+                <TableBodyCell><a href="/alt/{alt.id}" target="_blank" onclick={(e) => e.stopPropagation()}><Img src={getImageURL(alt?.collectionId, alt?.id, alt?.image)} alt={alt.title} size="max-w-xs" class="object-contain max-h-32"/></a></TableBodyCell>
+                <TableBodyCell>{alt.title}</TableBodyCell>
+                <TableBodyCell>{alt.expand.artist.name}</TableBodyCell>
+            </TableBodyRow>
+            {/each}
+        </TableBody>
+    </Table>
+</Modal>
 
 <style>
     .col-span-3 {
