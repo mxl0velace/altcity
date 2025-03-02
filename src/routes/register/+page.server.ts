@@ -6,12 +6,20 @@ export const actions = {
 
         try {
             let result = await locals.pb.collection('users').create(data);
+            let result2 = await locals.pb.collection('users').authWithPassword(data.get("email"), data.get("password"));
+            if(!locals.pb.authStore.isValid){
+                locals.pb.authStore.clear();
+            }
             redirect(303, "/");
+
         } catch (error) {
             if (isRedirect(error)){
                 throw error;
             }
             console.log(error);
+            return {
+                message: "Email/Username in use, please pick another."
+            }
         }
     }
 }
