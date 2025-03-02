@@ -9,8 +9,6 @@
 	var toast = {
 		visible: false
 	};
-	console.log(data.toast);
-	console.log(page.form?.status);
 	if (data.toast || page.form?.status) {
 		toast.visible = true;
 		switch (data.toast || page.form?.status) {
@@ -64,6 +62,7 @@
 		<NavLi href="/alt">Recent Cards</NavLi>
 		<NavLi href="/artist">Recent Artists</NavLi>
 		<NavLi href="/artist/new">Create New Artist</NavLi>
+		<NavLi href="/deckbuild">Deckbuilder</NavLi>
 		{#if data.user}
 			<NavLi class="cursor-pointer">{data.user.name}<ChevronDownOutline class="inline"/></NavLi>
 			<Dropdown>

@@ -8,7 +8,6 @@
     var featuredArtist = data.results.items?.find(x => x.name == "featuredArtist");
     var featuredCards = data.results.items?.filter(x => x.name == "featuredArt");
 
-    console.log(data);
 </script>
 
 

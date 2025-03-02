@@ -14,10 +14,10 @@ export const POST: RequestHandler = async ({request, locals, params}) => {
         cardCollection = await locals.pb.collection("cardcollection").getOne(collectionId);
     }
     catch (error) {
-        cardCollection = null
+        cardCollection = null;
     }
     if (cardCollection == null) {
-        if (locals.user.main_collection == null) {
+        if (!locals.user.main_collection) {
             const newCollection = await locals.pb.collection("cardcollection").create({
                 owner: userId,
                 cards: [params.id],
