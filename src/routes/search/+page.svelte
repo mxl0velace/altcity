@@ -17,7 +17,8 @@
     {#each results.items as art}
     <Card href="/alt/{art?.id}" img={getImageURL(art?.collectionId, art?.id, art?.image)}>
         <Heading tag="h5" class="">{art?.title}</Heading>
-        <p class="font-thin">{art?.cardname}, {art?.expand?.artist?.name}</p>
+        <p class="font-thin">{art?.cardname}</p>
+        <p class="font-thin">{art?.expand?.artist?.name}</p>
     </Card>
     {/each}
 </div>
