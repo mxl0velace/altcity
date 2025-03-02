@@ -88,6 +88,8 @@
                             <li>
                                 <Checkbox on:change={(e) => toggleCollection(collection.id, collection.cards.includes(art.id))} checked={collection.cards.includes(art.id)}>{collection.name}</Checkbox>
                             </li>
+                        {:else}
+                            <li class="text-gray-500">Add additional collections through your profile page!</li>
                         {/each}
                     </Dropdown>
             </div>

@@ -56,6 +56,6 @@
     <Label for="image" class="pb-2">Image</Label>
     <Fileupload class="mb-2" id="image" name="image"></Fileupload>
     <Helper class="mb-2">PNG, JPG, SVG, or GIF (max. ???MB I haven't checked yet but don't be silly)</Helper>
-    <Checkbox class="mb-2" name="watermark" checked>Enable Auto-Watermarking</Checkbox>
+    <Checkbox class="mb-2" name="watermark">Enable Auto-Watermarking</Checkbox>
     <Button type="submit" class="w-full">Save New Alt Art</Button>
 </form>
