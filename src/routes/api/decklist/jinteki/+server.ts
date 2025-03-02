@@ -2,6 +2,7 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import type { RecordModel } from 'pocketbase';
+import { sanitizeString } from '$lib/utils';
 
 export const POST: RequestHandler = async ({locals, params, request}) => {
     let cards: { name: string; quantity: string; alts: { main: number; collection: number; other: number; list: any[];}; }[] = [];
@@ -10,7 +11,7 @@ export const POST: RequestHandler = async ({locals, params, request}) => {
     for (const element of req.pastedInput.split("\n")){
         let [count, ...texts] = element.split(" ");
         let text = texts.join(" ");
-        let text_escaped = text.replace("'", "\\'");
+        let text_escaped = sanitizeString(text);
         if (isNaN(count)) {
             continue;
         }
@@ -25,7 +26,8 @@ export const POST: RequestHandler = async ({locals, params, request}) => {
                 collection: 0,
                 other: 0,
                 list: []
-            }
+            },
+            notfound: true
         }
         try {
             let resp = await locals.pb.collection("card").getFirstListItem(`name = '${text_escaped}'`);
@@ -62,7 +64,8 @@ export const POST: RequestHandler = async ({locals, params, request}) => {
                     collection: collection,
                     other: other,
                     list: alts
-                }
+                },
+                notfound: false
             }
         } catch (error) {
             console.log(error);

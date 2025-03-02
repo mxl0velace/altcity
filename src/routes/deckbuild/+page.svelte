@@ -32,9 +32,13 @@
 
 <div class="text-center">
     <Heading class="pb-2">Deckbuilder</Heading>
-    <div class="grid grid-cols-4 gap-3">
+    <div class="grid grod-cols-1 md:grid-cols-4 gap-3">
         <p class="col-span-1">Paste Jinteki.net format decklist</p>
         <p class="col-span-3">Select Alt Arts</p>
+        <Button type="button" class="col-span-1" on:click={loadDecklist}>
+            Refresh Decklist
+        </Button>
+        <div class="col-span-3"></div>
         <Textarea class="h-96 col-span-1" bind:value={pastedInput}></Textarea>
         <div class="grid grid-cols-1 col-span-3">
             <Table shadow hoverable>
@@ -57,15 +61,17 @@
                                  {entry.selected.title} ({entry.selected.expand.artist.name})
                             {:else}
                                 {#if entry.alts?.main}
-                                    <span class="text-green-500">{entry.alts.main || 0} {mainCollection.name}</span>, 
+                                    <span class="text-green-500">{entry.alts.main || 0} {mainCollection.name}</span>{#if entry.alts?.collection || entry.alts?.other},{/if}
                                 {/if}
                                 {#if entry.alts?.collection}
-                                    <span class="text-yellow-500">{entry.alts.collection || 0} Collections</span>,
+                                    <span class="text-yellow-500">{entry.alts.collection || 0} Collections</span>{#if entry.alts?.other},{/if}
                                 {/if}
                                 {#if entry.alts?.other}
                                     <span>{entry.alts.other || 0} Other</span>
                                 {/if}
-                                {#if !(entry.alts?.main || entry.alts?.collection || entry.alts?.other)}
+                                {#if entry.notfound}
+                                     <span class="text-red-500">Error finding card</span>
+                                {:else if !(entry.alts?.main || entry.alts?.collection || entry.alts?.other)}
                                     <span class="text-gray-400">No alts found</span>
                                 {/if}
                             {/if}
@@ -76,12 +82,9 @@
             </Table>    
     
         </div>
-        <Button type="button" class="col-span-1" on:click={loadDecklist}>
-            Refresh Decklist
-        </Button>
     </div>
 </div>
-<Modal title={selectedRow.name} bind:open={modalVisible} outsideclose>
+<Modal title={selectedRow.name} bind:open={modalVisible} outsideclose size="xl">
     <Table shadow hoverable>
         <TableHead>
             <TableHeadCell></TableHeadCell>

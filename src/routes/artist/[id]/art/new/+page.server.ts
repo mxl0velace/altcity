@@ -1,9 +1,11 @@
+import { sanitizeString } from "$lib/utils.js";
 import { isRedirect, redirect } from "@sveltejs/kit";
 import sharp from "sharp";
 
 export const actions = {
     default: async ({request, locals, params}) => {
         const data = await request.formData();
+        data.set("cardname", sanitizeString(data.get("cardname") || ""));
         if (data.get("watermark") && data.get("image")?.size > 0) {
             const img = data.get("image");
             //@ts-ignore
@@ -30,7 +32,7 @@ export const actions = {
         data.append("artist", params.id);
 
         try {
-            var card = await locals.pb.collection('card').getFirstListItem(`name = '${data.get("cardname")?.replace("'", "\\'")}'`);
+            var card = await locals.pb.collection('card').getFirstListItem(`name = '${sanitizeString(data.get("cardname"))}'`);
             data.set("cardlink", card.id);
         } catch (err) {
             

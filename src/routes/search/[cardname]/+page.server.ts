@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { sanitizeString } from '$lib/utils.js';
 
 export const load = (async ({params, url, locals}) => {
     let query = params.cardname;
@@ -11,7 +12,7 @@ export const load = (async ({params, url, locals}) => {
     }
 
     let results = await locals.pb.collection('art').getList(1,50, {
-        filter: `cardname = "${card.name}"`,
+        filter: `cardname = '${sanitizeString(card.name)}'`,
         expand: 'artist'
     });
 
