@@ -1,9 +1,42 @@
-import { sanitizeString } from "$lib/utils.js";
-import { isRedirect, redirect } from "@sveltejs/kit";
-import sharp from "sharp";
+import { getImageURL } from '$lib/utils.js';
+import { error, isRedirect, redirect } from '@sveltejs/kit';
+import { sanitizeString } from '$lib/utils.js';
+
+export const load = async ({locals, params}) => {
+    if (!locals.user) {
+        error(401);
+    }
+    try {
+        let art = await locals.pb.collection('art').getOne(params.id, {expand: "artist"});
+        if (!(locals.user.role == "admin" || locals.user.id == art.expand.artist.user)) {
+            error(403);
+        }
+        return {
+            art: art
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return {
+        art: null
+    }
+
+}
 
 export const actions = {
     default: async ({request, locals, params}) => {
+        if (!locals.user) {
+            error(401);
+        }
+        try {
+            let art = await locals.pb.collection('art').getOne(params.id, {expand: "artist"});
+            if (!(locals.user.role == "admin" || locals.user.id == art.expand.artist.user)) {
+                error(403);
+            }    
+        } catch (err) {
+            console.log(error);
+            error(403);
+        }
         const data = await request.formData();
         data.set("cardname", sanitizeString(data.get("cardname") || "", false));
         if (data.get("watermark") && data.get("image")?.size > 0) {
@@ -29,6 +62,9 @@ export const actions = {
             }]).toBuffer();
             data.set("image", new Blob([watermarkedImage]));
         }
+        if (data.get("image")?.size == 0) {
+            data.delete("image");
+        }
         try {
             var card = await locals.pb.collection('card').getFirstListItem(`name = '${sanitizeString(data.get("cardname"))}'`);
             data.set("cardlink", card.id);
@@ -37,7 +73,7 @@ export const actions = {
         }
 
         try {
-            var result = await locals.pb.collection('art').create(data);
+            var result = await locals.pb.collection('art').update(params.id, data);
             redirect(303, "/alt/"+result.id);
         } catch (error) {
             if (isRedirect(error)){
@@ -48,20 +84,5 @@ export const actions = {
                 status: "error_unknown"
             }
         }
-    }
-}
-
-export const load = async ({locals, params}) => {
-    const getAllArtists = async() => {
-        try {
-            const artist = await locals.pb.collection('artist').getFullList();
-            return artist;
-        } catch (err: any) {
-            console.log(err);
-            //throw error(err.status, err.message)
-        }
-    }
-    return {
-        artists: await getAllArtists()
     }
 }

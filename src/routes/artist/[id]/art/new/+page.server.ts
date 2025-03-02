@@ -5,7 +5,7 @@ import sharp from "sharp";
 export const actions = {
     default: async ({request, locals, params}) => {
         const data = await request.formData();
-        data.set("cardname", sanitizeString(data.get("cardname") || ""));
+        data.set("cardname", sanitizeString(data.get("cardname") || "", false));
         if (data.get("watermark") && data.get("image")?.size > 0) {
             const img = data.get("image");
             //@ts-ignore
