@@ -4,6 +4,7 @@
     import { getImageURL } from '$lib/utils';
     import { Button, Card, Dropdown, Checkbox } from 'flowbite-svelte';
     import { CirclePlusSolid, CircleMinusSolid, ChevronDownOutline} from 'flowbite-svelte-icons';
+    import { page } from '$app/stores';
 
     let { data } = $props();
     let art = data?.art;
@@ -106,6 +107,10 @@
                 </Dropdown>
 
             </div>
+            {/if}
+            {#if data.user.role == "admin" || data.user.id == art.expand.artist.user}
+                 <Button color="blue" class="mt-2" href="{$page.params.id}/edit">Edit</Button>
+                 <Button color="red" class="mt-2">Delete</Button>
             {/if}
         {/if}
     </Card>

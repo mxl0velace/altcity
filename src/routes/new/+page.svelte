@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { PageData } from "../../$types";
     import { enhance } from "$app/forms";
     import { Input, Label, Helper, Button, ButtonGroup, InputAddon, Fileupload, Select, Textarea, Checkbox, Popover, Dropdown, Search } from "flowbite-svelte";
 
