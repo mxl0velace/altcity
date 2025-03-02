@@ -42,6 +42,9 @@
 	{#if page.data.image}
 		 <meta property="og:image" content="{page.data.image}"/>
 	{/if}
+	{#if page.data.art}
+		 <meta property="og:description" content="{page.data.art.cardname} - {page.data.art.expand.artist.name}"/>
+	{/if}
 </svelte:head>
 
 <div class="container mx-auto">
