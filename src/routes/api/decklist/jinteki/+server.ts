@@ -26,7 +26,8 @@ export const POST: RequestHandler = async ({locals, params, request}) => {
                 collection: 0,
                 other: 0,
                 list: []
-            }
+            },
+            notfound: true
         }
         try {
             let resp = await locals.pb.collection("card").getFirstListItem(`name = '${text_escaped}'`);
@@ -63,7 +64,8 @@ export const POST: RequestHandler = async ({locals, params, request}) => {
                     collection: collection,
                     other: other,
                     list: alts
-                }
+                },
+                notfound: false
             }
         } catch (error) {
             console.log(error);
