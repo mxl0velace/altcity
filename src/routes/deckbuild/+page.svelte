@@ -32,7 +32,7 @@
 
 <div class="text-center">
     <Heading class="pb-2">Deckbuilder</Heading>
-    <div class="grid grid-cols-4 gap-3">
+    <div class="grid grod-cols-1 md:grid-cols-4 gap-3">
         <p class="col-span-1">Paste Jinteki.net format decklist</p>
         <p class="col-span-3">Select Alt Arts</p>
         <Textarea class="h-96 col-span-1" bind:value={pastedInput}></Textarea>
