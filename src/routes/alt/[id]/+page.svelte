@@ -2,8 +2,8 @@
 // @ts-nocheck
 
     import { getImageURL } from '$lib/utils';
-    import { Button, Card, Dropdown, Checkbox } from 'flowbite-svelte';
-    import { CirclePlusSolid, CircleMinusSolid, ChevronDownOutline} from 'flowbite-svelte-icons';
+    import { Button, Card, Dropdown, Checkbox, Modal } from 'flowbite-svelte';
+    import { CirclePlusSolid, CircleMinusSolid, ChevronDownOutline, ExclamationCircleOutline} from 'flowbite-svelte-icons';
     import { page } from '$app/stores';
 
     let { data } = $props();
@@ -11,6 +11,7 @@
     let mainCollection = data.userWithCollections?.main_collection;
     let otherCollections = data.userWithCollections?.expand.cardcollection_via_owner?.concat(data.userWithCollections.expand.cardcollection_via_editors || []).filter(x => x.id != mainCollection) || [];
     let inCollection = $state(art?.expand?.cardcollection_via_cards?.length != null && art?.expand?.cardcollection_via_cards.some(x => x.id == mainCollection));
+    let deleteModal = $state(false);
 
     const addToCollection = async function (e, collectionId = null) {
 		const response = await fetch(`/api/card/${data?.art?.id}/addToCollection`, {
@@ -109,9 +110,22 @@
             </div>
             {/if}
             {#if data.user.role == "admin" || data.user.id == art.expand.artist.user}
-                 <Button color="blue" class="mt-2" href="{$page.params.id}/edit">Edit</Button>
-                 <Button color="red" class="mt-2">Delete</Button>
+            <div class="grid gap-6 sm:grid-cols-3 place-items-center">
+                 <Button color="blue" class="mt-2 col-span-2 w-full" href="{$page.params.id}/edit">Edit</Button>
+                 <Button color="red" class="mt-2 col-span-1 w-full" on:click={() => {deleteModal=true;}}>Delete</Button>
+            </div>
             {/if}
         {/if}
     </Card>
+    <Modal bind:open={deleteModal} size="xs" outsideclose>
+        <div class="text-center">
+            <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
+            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete {art.title}?</h3>
+            <form method="POST">
+                <Button type="submit" color="red" class="me-2">Yes, I'm sure</Button>
+                <Button color="alternative" on:click={() => {deleteModal=false;}}>No, cancel</Button>
+            </form>
+
+        </div>
+    </Modal>
 </div>
