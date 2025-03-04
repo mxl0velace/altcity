@@ -1,6 +1,7 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
     import { Input, Label, Helper, Button, ButtonGroup, InputAddon, Fileupload, Select, Textarea, Checkbox, Popover, Dropdown, Search } from "flowbite-svelte";
+    import { QuestionCircleSolid } from "flowbite-svelte-icons";
 
     let { data }: { data: PageData } = $props();
     let options = $state([]);
@@ -92,7 +93,62 @@
     <Label for="image" class="pb-2">Image</Label>
     <Fileupload class="mb-2" id="image" name="image"></Fileupload>
     <Helper class="mb-2">PNG, JPG, SVG, or GIF (max. ???MB I haven't checked yet but don't be silly)</Helper>
-    <Checkbox class="mb-2" name="watermark">Enable Auto-Watermarking</Checkbox>
+    <div class="grid gap-6 mb-6 md:grid-cols-6">
+        <div class="flex flex-row">
+            <Checkbox name="watermark">Enable Auto-Watermarking</Checkbox>
+            <button type="button" id="bwatermark">
+                <QuestionCircleSolid class="w-5 h-5 ms-1.5" />
+                <span class="sr-only">Show information</span>
+            </button>
+            <Popover triggeredBy="#bwatermark" class="w-72 text-sm font-light text-gray-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400" placement="bottom-start">
+                <div class="p-3 space-y-2">
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Auto-Watermarking</h3>
+                    Adds an alt-city-grid themed pattern over your art upon upload.
+                </div>
+            </Popover>
+        </div>
+        <div class="flex flex-row">
+            <Checkbox name="bleed">Enable MPC Bleed Crop</Checkbox>
+            <button type="button" id="bbleed">
+                <QuestionCircleSolid class="w-5 h-5 ms-1.5" />
+                <span class="sr-only">Show information</span>
+            </button>
+            <Popover triggeredBy="#bbleed" class="w-72 text-sm font-light text-gray-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400" placement="bottom-start">
+                <div class="p-3 space-y-2">
+                    <h3 class="font-semibold text-gray-900 dark:text-white">MPC Bleed Crop</h3>
+                    Crops the image according to the MPC "Poker Size" bleed template.
+                </div>
+            </Popover>
+        </div>
+        <div class="flex flex-row">
+            <Checkbox name="resize">Enable Auto-Resizing</Checkbox>
+            <button type="button" id="bresize">
+                <QuestionCircleSolid class="w-5 h-5 ms-1.5" />
+                <span class="sr-only">Show information</span>
+            </button>
+            <Popover triggeredBy="#bresize" class="w-72 text-sm font-light text-gray-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400" placement="bottom-start">
+                <div class="p-3 space-y-2">
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Auto-Resize</h3>
+                    Resizes the uploaded image to NetrunnerDB image resolution.
+                </div>
+            </Popover>
+
+        </div>
+        <div class="flex flex-row">
+            <Checkbox name="rounded">Enable Rounded Corners</Checkbox>
+            <button type="button" id="bround">
+                <QuestionCircleSolid class="w-5 h-5 ms-1.5" />
+                <span class="sr-only">Show information</span>
+            </button>
+            <Popover triggeredBy="#bround" class="w-72 text-sm font-light text-gray-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400" placement="bottom-start">
+                <div class="p-3 space-y-2">
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Rounded Corners</h3>
+                    Makes the corners of the uploaded image transparent.
+                </div>
+            </Popover>
+
+        </div>
+    </div>
     <Button type="submit" class="w-full">Save New Alt Art</Button>
     <Input type="hidden" value={artist.id} name="artist"/>
 </form>
