@@ -52,7 +52,7 @@
         </div>
     </div>
     <Label for="description" class="pb-2">Description</Label>
-    <Textarea id="description" name="description" class="mb-2" placeholder="Made for Worlds 2031 Top Cut prizing...">{data.art.description}</Textarea>
+    <Textarea id="description" name="description" class="mb-2" placeholder="Made for Worlds 2031 Top Cut prizing..." value={data.art.description}></Textarea>
     <Label for="image" class="pb-2">Image</Label>
     <Fileupload class="mb-2" id="image" name="image"></Fileupload>
     <Helper class="mb-2">Leave blank to retain current file. PNG, JPG, SVG, or GIF (max. ???MB I haven't checked yet but don't be silly)</Helper>
