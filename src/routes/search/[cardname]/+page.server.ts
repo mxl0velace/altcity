@@ -13,12 +13,23 @@ export const load = (async ({params, url, locals}) => {
 
     let results = await locals.pb.collection('art').getList(1,50, {
         filter: `cardname = '${sanitizeString(card.name)}'`,
-        expand: 'artist'
+        expand: 'artist, cardcollection_via_cards'
     });
+
+    var userWithCollections;
+    try {
+        userWithCollections = await locals.pb.collection('users').getOne(locals.user.id, {
+            expand: "cardcollection_via_owner.cards"
+        })
+    } catch (err) {
+        console.log(err)
+    }
+
 
     return {
         query: query,
         results: results,
-        card: card
+        card: card,
+        userWithCollections: userWithCollections
     };
 }) satisfies PageServerLoad;

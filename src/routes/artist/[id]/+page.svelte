@@ -1,10 +1,13 @@
 <script>
+    import { enhance } from "$app/forms";
+    import Cardcard from "$lib/cardcard.svelte";
     import { getImageURL } from "$lib/utils.ts";
-    import { Button, Heading, Img, TabItem, Tabs, Card } from "flowbite-svelte";
+    import { Button, Heading, Img, TabItem, Tabs, Card, ButtonGroup, Fileupload, Helper, Input, InputAddon, Label } from "flowbite-svelte";
     import { ShieldCheckSolid } from "flowbite-svelte-icons";
 
 
     let { data } = $props();
+    var mainOpen = $state(true);
 
 </script>
 
@@ -13,7 +16,7 @@ loading
 {:then artist}
 <div class="flex w-min gap-2 items-center"><Heading>{artist?.name}</Heading>{#if artist?.user}<ShieldCheckSolid size="xl" class="text-green-500"/>{/if}</div>
 <Tabs tabStyle="underline">
-    <TabItem open title="Overview">
+    <TabItem bind:open={mainOpen} title="Overview">
         <div class="flex gap-10 flex-col md:flex-row flex-wrap">
             {#if artist?.logo}
             <Img src={getImageURL(artist?.collectionId, artist?.id, artist?.logo)} size="max-w-xs" alt="Logo for {artist?.name}" class="mb-2 mt-auto mb-auto"></Img>
@@ -32,10 +35,7 @@ loading
             {#if artist?.expand?.art_via_artist}
             <div class="flex w-min flex-grow gap-8">
             {#each artist?.expand?.art_via_artist.slice(0, 2) as art}
-                <Card img={getImageURL(art?.collectionId, art?.id, art?.image)} href="/alt/{art?.id}" class="flex-grow">
-                    <h5 class="mb-2 text-2xl font-bold">{art?.title}</h5>
-                    <p><i>{art?.cardname}</i></p>
-                </Card>
+                <Cardcard {data} {art} showArtist={false}/>
             {/each}
             </div>
         {/if}
@@ -48,12 +48,37 @@ loading
                 <p class="mb-2 text-xl font-bold">Upload a new alt...</p>
             </Card>
             {#each artist?.expand?.art_via_artist as art}
-                <Card img={getImageURL(art?.collectionId, art?.id, art?.image)} href="/alt/{art?.id}">
-                    <h5 class="mb-2 text-2xl font-bold">{art?.title}</h5>
-                    <p><i>{art?.cardname}</i></p>
-                </Card>
+                <Cardcard {data} {art} showArtist={false}/>
             {/each}
         </div>            
     </TabItem>
+    {#if artist.user == data.user.id || data.user.role == "admin"}
+    <TabItem title="Edit Artist">
+        <form method="POST" enctype="multipart/form-data" use:enhance={() => {
+            return async ({update}) => {
+                await update();
+                mainOpen = true;
+            }
+        }}>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                    <Label for="name" class="mb-2">Artist Name</Label>
+                    <ButtonGroup class="w-full">
+                        <Input type="text" id="name" name="name" placeholder="John Netrunner..." required value={artist.name}/>
+                        <InputAddon>Required</InputAddon>
+                    </ButtonGroup>
+                </div>
+                <div>
+                    <Label for="link" class="mb-2">Website/Social Media/Etsy Link</Label>
+                    <Input type="text" id="link" name="link" placeholder="https://web.site" value={artist.link}/>
+                </div>
+            </div>
+            <Label for="logo" class="pb-2">Artist Logo</Label>
+            <Fileupload class="mb-2" id="logo" name="logo"></Fileupload>
+            <Helper class="mb-2">Leave blank to retain current logo. PNG, JPG, SVG, or GIF (max. ???MB I haven't checked yet but don't be silly)</Helper>
+            <Button type="submit" class="w-full">Save Edits to {artist.name}</Button>
+        </form>   
+    </TabItem>
+    {/if}
 </Tabs>
 {/await}

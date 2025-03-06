@@ -7,7 +7,7 @@ export const load = async ({locals, params}) => {
     const getUserWithCollection = async() => {
         try {
             const userArts = await locals.pb.collection('users').getOne(locals?.user?.id || "", {
-                expand: "cardcollection_via_owner.cards.artist, cardcollection_via_editors.cards.artist"
+                expand: "cardcollection_via_owner.cards.artist, cardcollection_via_editors.cards.artist, cardcollection_via_owner.cards.cardcollection_via_cards, cardcollection_via_editors.cards.cardcollection_via_cards"
             })
             return userArts;
         } catch (err: any) {
@@ -15,9 +15,11 @@ export const load = async ({locals, params}) => {
             //throw error(err.status, err.message)
         }
     }
+    var fullUser = await getUserWithCollection();
     return {
-        fulluser: await getUserWithCollection(),
-        title: "Alt Arts"
+        fulluser: fullUser,
+        title: "Alt Arts",
+        userWithCollections: fullUser
     }
 }
 

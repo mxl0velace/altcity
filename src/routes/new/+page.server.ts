@@ -15,22 +15,22 @@ export const actions = {
             if (data.get("bleed")) {
                 if(meta.height > meta.width) { // Portrait
                     simg = simg.extract({
-                        left: ((816-744)/2)*meta.width/816, // Calculated from MPC template values
-                        top: ((1110-1038)/2)*meta.height/1110, 
-                        width: 744*meta.width/816, 
-                        height: 1038*meta.height/1110
+                        left: Math.floor(((816-744)/2)*meta.width/816), // Calculated from MPC template values
+                        top: Math.floor(((1110-1038)/2)*meta.height/1110), 
+                        width: Math.floor(744*meta.width/816), 
+                        height: Math.floor(1038*meta.height/1110)
                     })
-                    meta.width = 744*meta.width/816;
-                    meta.height = 1038*meta.height/1110;
+                    meta.width = Math.floor(744*meta.width/816);
+                    meta.height = Math.floor(1038*meta.height/1110);
                 } else {
                     simg = simg.extract({
-                        top: ((816-744)/2)*meta.height/816,
-                        left: ((1110-1038)/2)*meta.width/1110, 
-                        height: 744*meta.height/816, 
-                        width: 1038*meta.width/1110
+                        top: Math.floor(((816-744)/2)*meta.height/816),
+                        left: Math.floor(((1110-1038)/2)*meta.width/1110), 
+                        height: Math.floor(744*meta.height/816), 
+                        width: Math.floor(1038*meta.width/1110)
                     })
-                    meta.height = 744*meta.height/816;
-                    meta.width = 1038*meta.width/1110;
+                    meta.height = Math.floor(744*meta.height/816);
+                    meta.width = Math.floor(1038*meta.width/1110);
                 }
             }
 
