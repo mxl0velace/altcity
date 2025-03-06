@@ -7,7 +7,9 @@ export const load = async ({locals, params}) => {
             const art = await locals.pb.collection('art').getOne(artId, {expand: "artist, cardcollection_via_cards.owner"});
             var userWithCollections;
             if (locals.user) {
-                userWithCollections = await locals.pb.collection('users').getOne(locals.user.id, {expand: "cardcollection_via_owner.cards, cardcollection_via_editors.cards"});
+                userWithCollections = await locals.pb.collection('users').getOne(locals.user.id, {
+                    expand: "cardcollection_via_owner.cards, cardcollection_via_editors.cards"
+                });
             }
             return {art, userWithCollections};
         } catch (err: any) {

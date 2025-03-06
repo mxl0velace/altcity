@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Cardcard from '$lib/cardcard.svelte';
     import { getImageURL } from '$lib/utils';
     import type { PageData } from './$types';
     import { Card, CardPlaceholder, Gallery, Heading } from 'flowbite-svelte';
@@ -13,12 +14,7 @@
     <div class="grid gap-6 mb-6 md:grid-cols-7">
         {#if arts}
         {#each arts.items as art}
-        <Card href="/alt/{art?.id}" img={getImageURL(art?.collectionId, art?.id, art?.image)}>
-            <Heading tag="h5">{art?.title}</Heading>
-            <p class="font-thin">{art?.cardname}</p>
-            <p class="font-thin">{art?.expand?.artist?.name}</p>
-        </Card>
-
+            <Cardcard {data} {art}/>
         {/each}
         {/if}
     </div>

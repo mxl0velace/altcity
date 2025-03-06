@@ -1,5 +1,6 @@
 <script>
     import { enhance } from "$app/forms";
+    import Cardcard from "$lib/cardcard.svelte";
     import { getImageURL } from "$lib/utils.ts";
     import { Button, Heading, Img, TabItem, Tabs, Card, ButtonGroup, Fileupload, Helper, Input, InputAddon, Label } from "flowbite-svelte";
     import { ShieldCheckSolid } from "flowbite-svelte-icons";
@@ -34,10 +35,7 @@ loading
             {#if artist?.expand?.art_via_artist}
             <div class="flex w-min flex-grow gap-8">
             {#each artist?.expand?.art_via_artist.slice(0, 2) as art}
-                <Card img={getImageURL(art?.collectionId, art?.id, art?.image)} href="/alt/{art?.id}" class="flex-grow">
-                    <h5 class="mb-2 text-2xl font-bold">{art?.title}</h5>
-                    <p><i>{art?.cardname}</i></p>
-                </Card>
+                <Cardcard {data} {art} showArtist={false}/>
             {/each}
             </div>
         {/if}
@@ -50,10 +48,7 @@ loading
                 <p class="mb-2 text-xl font-bold">Upload a new alt...</p>
             </Card>
             {#each artist?.expand?.art_via_artist as art}
-                <Card img={getImageURL(art?.collectionId, art?.id, art?.image)} href="/alt/{art?.id}">
-                    <h5 class="mb-2 text-2xl font-bold">{art?.title}</h5>
-                    <p><i>{art?.cardname}</i></p>
-                </Card>
+                <Cardcard {data} {art} showArtist={false}/>
             {/each}
         </div>            
     </TabItem>

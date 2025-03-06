@@ -5,6 +5,7 @@
     import { CirclePlusSolid, CogSolid, ExclamationCircleOutline } from 'flowbite-svelte-icons';
     import { enhance } from '$app/forms';
     import { page } from '$app/state';
+    import Cardcard from '$lib/cardcard.svelte';
 
     let { data }: { data: PageData } = $props();
     let allCollections = $state(data.fulluser?.expand?.cardcollection_via_owner?.concat(data.fulluser.expand.cardcollection_via_editors || []) || data.fulluser?.expand?.cardcollection_via_editors || [])
@@ -27,11 +28,7 @@
         </div>
         <div class="grid gap-6 mb-6 md:grid-cols-7">
             {#each collection.expand.cards as art}
-            <Card href="/alt/{art?.id}" img={getImageURL(art?.collectionId, art?.id, art?.image)}>
-                <Heading tag="h5" class="">{art?.title}</Heading>
-                    <p class="font-thin">{art?.cardname}</p>
-                    <p class="font-thin">{art?.expand?.artist?.name}</p>
-            </Card>
+                <Cardcard {data} {art}/>
             {/each}
         </div>        
     </TabItem>
