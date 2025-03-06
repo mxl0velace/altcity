@@ -4,7 +4,7 @@
     import { MinusOutline, PlusOutline } from "flowbite-svelte-icons";
 
 
-    let { data, art, showArtist } = $props();
+    let { data, art, showArtist = true } = $props();
 
     let mainCollection = data.userWithCollections?.main_collection;
     let inCollection = $state(art?.expand?.cardcollection_via_cards?.length != null && art?.expand?.cardcollection_via_cards.some(x => x.id == mainCollection));
