@@ -62,8 +62,8 @@
 	</div>
 	<NavHamburger/>
 	<NavUl>
-		<NavLi href="/alt">Recent Cards</NavLi>
-		<NavLi href="/artist">Recent Artists</NavLi>
+		<NavLi href="/alt">Alt Arts</NavLi>
+		<NavLi href="/artist">Artists</NavLi>
 		<NavLi href="/artist/new">Create New Artist</NavLi>
 		<NavLi href="/new">Upload New Card</NavLi>
 		<NavLi href="/deckbuild">Deckbuilder</NavLi>

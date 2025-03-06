@@ -21,7 +21,7 @@ export const load = async ({locals, params}) => {
         console.log(err)
     }
     return {
-        arts: getAllArts(),
+        arts: await getAllArts(),
         title: "Alt Arts",
         userWithCollections: userWithCollections
     }
