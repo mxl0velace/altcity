@@ -13,7 +13,7 @@ export const load = async ({locals, params}) => {
         }
     }
     return {
-        artists: getAllArtists(),
+        artists: await getAllArtists(),
         title: "Artists"
     }
 }
