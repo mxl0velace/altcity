@@ -3,6 +3,7 @@
     import { Button, Heading, Img, Modal, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Textarea } from 'flowbite-svelte';
     import type { PageData } from './$types';
     import { getImageURL } from '$lib/utils';
+    import { CircleMinusSolid } from 'flowbite-svelte-icons';
 
     let { data }: { data: PageData } = $props();
 
@@ -58,7 +59,13 @@
                         </TableBodyCell>
                         <TableBodyCell>
                             {#if entry.selected}
-                                 {entry.selected.title} ({entry.selected.expand.artist.name})
+                                {#if entry.selected.inCollection == "main"}
+                                <span class="text-green-500">{entry.selected.title} ({entry.selected.expand.artist.name})</span>
+                                {:else if  entry.selected.inCollection == "collection"}
+                                <span class="text-yellow-500">{entry.selected.title} ({entry.selected.expand.artist.name})</span>
+                                {:else}
+                                {entry.selected.title} ({entry.selected.expand.artist.name})
+                                {/if}
                             {:else}
                                 {#if entry.alts?.main}
                                     <span class="text-green-500">{entry.alts.main || 0} {mainCollection.name}</span>{#if entry.alts?.collection || entry.alts?.other},{/if}
@@ -85,6 +92,7 @@
     </div>
 </div>
 <Modal title={selectedRow.name} bind:open={modalVisible} outsideclose size="xl">
+    <Button outline pill color="red" size="xs" on:click={() => {selectedRow.selected = null; modalVisible = false;}}><CircleMinusSolid class="w-4 h-4 me-2"/>Deselect alt art</Button>
     <Table shadow hoverable>
         <TableHead>
             <TableHeadCell></TableHeadCell>
