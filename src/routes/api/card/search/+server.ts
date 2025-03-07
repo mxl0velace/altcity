@@ -29,7 +29,11 @@ export const GET: RequestHandler = async ({locals, params, url}) => {
     }
     catch (error) {
         console.log(error)
-        cards = null
+        cards = {}
     }
+    cards.cardNameTerm = cardName;
+    cards.artistNameTerm = artistName;
+    cards.filtersTerm = filters;
+    cards.pageTerm = page;
     return json(cards)
 };

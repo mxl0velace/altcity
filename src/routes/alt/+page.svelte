@@ -29,7 +29,12 @@
             filters: filters.join(),
             page: page.toString(),
         }).toString());
-        arts = await result.json();
+        var tarts = await result.json();
+        if (cardName != tarts.cardNameTerm || artistName != tarts.artistNameTerm) {
+            return;
+        } else {
+            arts = tarts;
+        }
         pages = new Array(arts.totalPages).fill(1).map((e,i) => {
         return {name: i+1, active: (i+1 == arts.page)}
         });

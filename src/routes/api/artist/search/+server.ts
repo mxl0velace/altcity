@@ -23,7 +23,10 @@ export const GET: RequestHandler = async ({locals, params, url}) => {
     }
     catch (error) {
         console.log(error)
-        artists = null
+        artists = {}
     }
+    artists.artistNameTerm = artistName;
+    artists.pageTerm = page;
+    artists.filterTerm = filters;
     return json(artists)
 };
