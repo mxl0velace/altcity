@@ -3,7 +3,7 @@ import { sanitizeString } from '$lib/utils';
 
 export const GET: RequestHandler = async ({locals, params, url}) => {
     var artists;
-    var artistName = url.searchParams.get("artistName");
+    var artistName = sanitizeString(url.searchParams.get("artistName"));
     var filters = url.searchParams.get("filters")?.split(",");
     var page = url.searchParams.get("page") || 1;
 
