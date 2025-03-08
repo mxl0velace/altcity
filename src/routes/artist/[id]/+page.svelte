@@ -52,7 +52,7 @@ loading
             {/each}
         </div>            
     </TabItem>
-    {#if artist.user == data.user.id || data.user.role == "admin"}
+    {#if data.user && (artist.user == data.user.id || data.user.role == "admin")}
     <TabItem title="Edit Artist">
         <form method="POST" enctype="multipart/form-data" use:enhance={() => {
             return async ({update}) => {
