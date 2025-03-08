@@ -16,7 +16,7 @@ export const GET: RequestHandler = async ({locals, params, url}) => {
     }
 
     try {
-        artists = await locals.pb.collection('artist').getList(page, 50, {
+        artists = await locals.pb.collection('artist').getList(page, 42, {
             filter: searchTerms.join(" &&"),
             sort: '-created',
         });

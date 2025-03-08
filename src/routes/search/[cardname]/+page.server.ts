@@ -11,7 +11,7 @@ export const load = (async ({params, url, locals}) => {
         error(404)
     }
 
-    let results = await locals.pb.collection('art').getList(1,50, {
+    let results = await locals.pb.collection('art').getList(1,42, {
         filter: `cardname = '${sanitizeString(card.name)}'`,
         expand: 'artist, cardcollection_via_cards'
     });
