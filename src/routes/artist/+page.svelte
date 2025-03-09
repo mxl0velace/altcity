@@ -26,7 +26,12 @@
             filters: filters.join(),
             page: page.toString(),
         }).toString());
-        artists = await result.json();
+        var tartists = await result.json();
+        if (artistName != tartists.artistNameTerm) {
+            return;
+        } else {
+            artists = tartists;
+        }
         pages = new Array(artists.totalPages).fill(1).map((e,i) => {
         return {name: i+1, active: (i+1 == artists.page)}
         });

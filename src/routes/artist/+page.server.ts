@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 export const load = async ({locals, params}) => {
     const getAllArtists = async() => {
         try {
-            const artists = await locals.pb.collection('artist').getList(1,50,{
+            const artists = await locals.pb.collection('artist').getList(1,42,{
                 sort: '-created'
             });
             return artists;

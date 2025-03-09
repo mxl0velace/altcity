@@ -99,7 +99,10 @@ const sanitizeChars: Array<[string, '-' | "'" | '"']> = Object.entries({
   });
   
   /** Normalizes non-standard quotes and dashes into a uniform format.  */
-export const sanitizeString = (query: string, escape = true) => {
+export const sanitizeString = (query: string | null, escape = true) => {
+	if (query == null) {
+		return null;
+	}
 	if (escape) {
 		return sanitizeChars.reduce((acc, [char, stdChar]) => {
 			return acc.replaceAll(char, stdChar);

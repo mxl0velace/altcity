@@ -5,7 +5,7 @@ export const load = (async ({params, url, locals}) => {
     let query = url.searchParams.get('query');
     let squery = sanitizeString(query);
 
-    let results = await locals.pb.collection('art').getList(1,50, {
+    let results = await locals.pb.collection('art').getList(1,42, {
         filter: `title ~ '${squery}'|| cardname ~ '${squery}'`,
         expand: 'artist, cardcollection_via_cards'
     });

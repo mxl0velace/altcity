@@ -3,7 +3,7 @@ import { sanitizeString } from '$lib/utils';
 
 export const GET: RequestHandler = async ({locals, params, url}) => {
     var artists;
-    var artistName = url.searchParams.get("artistName");
+    var artistName = sanitizeString(url.searchParams.get("artistName"));
     var filters = url.searchParams.get("filters")?.split(",");
     var page = url.searchParams.get("page") || 1;
 
@@ -16,14 +16,17 @@ export const GET: RequestHandler = async ({locals, params, url}) => {
     }
 
     try {
-        artists = await locals.pb.collection('artist').getList(page, 50, {
+        artists = await locals.pb.collection('artist').getList(page, 42, {
             filter: searchTerms.join(" &&"),
             sort: '-created',
         });
     }
     catch (error) {
         console.log(error)
-        artists = null
+        artists = {}
     }
+    artists.artistNameTerm = artistName;
+    artists.pageTerm = page;
+    artists.filterTerm = filters;
     return json(artists)
 };

@@ -4,8 +4,8 @@ import { sanitizeString } from '$lib/utils';
 
 export const GET: RequestHandler = async ({locals, params, url}) => {
     var cards;
-    var cardName = url.searchParams.get("cardName");
-    var artistName = url.searchParams.get("artistName");
+    var cardName = sanitizeString(url.searchParams.get("cardName"));
+    var artistName = sanitizeString(url.searchParams.get("artistName"));
     var filters = url.searchParams.get("filters")?.split(",");
     var page = url.searchParams.get("page") || 1;
 
@@ -21,7 +21,7 @@ export const GET: RequestHandler = async ({locals, params, url}) => {
     }
 
     try {
-        cards = await locals.pb.collection('art').getList(page, 50, {
+        cards = await locals.pb.collection('art').getList(page, 42, {
             filter: searchTerms.join(" &&"),
             sort: '-created',
             expand: 'artist, cardcollection_via_cards'
@@ -29,7 +29,11 @@ export const GET: RequestHandler = async ({locals, params, url}) => {
     }
     catch (error) {
         console.log(error)
-        cards = null
+        cards = {}
     }
+    cards.cardNameTerm = cardName;
+    cards.artistNameTerm = artistName;
+    cards.filtersTerm = filters;
+    cards.pageTerm = page;
     return json(cards)
 };

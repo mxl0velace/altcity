@@ -67,7 +67,7 @@
 
 
 <div class="grid gap-6 mb-6 sm:grid-cols-2 place-items-center">
-    <img class="img-responsive h-96" src={getImageURL(art?.collectionId || "", art?.id || "", art?.image)} alt={art?.title}/>
+    <img class="img-responsive h-96 object-contain" src={getImageURL(art?.collectionId || "", art?.id || "", art?.image)} alt={art?.title}/>
     <Card>
         <h1 class="text-2xl font-bold">{art?.title}</h1>
         <h2 class="text-lg font-thin">{#if art?.cardlink}

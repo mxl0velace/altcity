@@ -14,7 +14,7 @@
 {#await data.results}
     Loading...
 {:then results} 
-<div class="grid gap-6 mb-6 md:grid-cols-7">
+<div class="grid gap-6 mb-6 grid-cols-3 md:grid-cols-7">
     {#each results.items as art}
         <Cardcard {data} {art}/>
     {/each}

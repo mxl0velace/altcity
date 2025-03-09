@@ -26,7 +26,7 @@
             <p class="align-middle">Share the link <a href="/collection/{collection.id}/join" class="text-blue-600 underline hover:no-underline">{page.url.host}{page.url.pathname}/{collection.id}/join</a> to invite editors to this collection.</p>
             {/if}
         </div>
-        <div class="grid gap-6 mb-6 md:grid-cols-7">
+        <div class="grid gap-6 mb-6 grid-cols-3 md:grid-cols-7">
             {#each collection.expand.cards as art}
                 <Cardcard {data} {art}/>
             {/each}
